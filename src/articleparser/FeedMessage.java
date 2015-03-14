@@ -19,6 +19,8 @@ public class FeedMessage {
   String link;
   String author;
   String guid;
+  String photo;
+  String fulltext;
 
   public String getTitle() {
     return title;
@@ -66,5 +68,33 @@ public class FeedMessage {
         + ", link=" + link + ", author=" + author + ", guid=" + guid
         + "]";
   }
+
+    /**
+     * @return the photo
+     */
+    public String getPhoto() {
+        return photo;
+    }
+
+    /**
+     * @param photo the photo to set
+     */
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    /**
+     * @return the fulltext
+     */
+    public String getFulltext() {
+        return fulltext;
+    }
+
+    /**
+     * @param fulltext the fulltext to set
+     */
+    public void setFulltext(String fulltext) {
+        this.fulltext = fulltext;
+    }
 
 } 
