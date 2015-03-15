@@ -14,6 +14,7 @@ public class MySQLAccess {
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
+    private String password="buenosS1";
 
     public void writeDataBase(String guid, String description, String title, String text, String res, String lang, String image) throws Exception {
         try {
@@ -21,7 +22,7 @@ public class MySQLAccess {
             Class.forName("com.mysql.jdbc.Driver");
             // Setup the connection with the DB
             connect = DriverManager.getConnection("jdbc:mysql://localhost/aqparat?"
-                    + "user=root&password=&characterEncoding=utf-8&useUnicode=true");
+                    + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
 
             // Statements allow to issue SQL queries to the database
             //statement = connect.createStatement();
@@ -33,7 +34,7 @@ public class MySQLAccess {
             String query="INSERT INTO `aqparat`.`news` (`id`, `title`, `description`, `text`, `photo`, `link`, `time`, `resource_id`, `language_id`) VALUES (NULL, '" + title + "', '" + description + "', '" + text + "', '"+image+"', '" + guid + "', CURRENT_TIMESTAMP, '" + res + "', '" + lang + "');";
            String qr="INSERT INTO `aqparat`.`news` (`id`, `title`, `description`, `text`, `photo`, `link`, `time`, `resource_id`, `language_id`) VALUES (NULL, '" + title + "', '" + description + "', '" + "text" + "', '"+image+"', '" + guid + "', CURRENT_TIMESTAMP, '" + res + "', '" + lang + "');";
 
-                   System.out.println(qr);
+                //   System.out.println(qr);
             preparedStatement = connect.prepareStatement(query);
             // "myuser, webpage, datum, summery, COMMENTS from feedback.comments");
             // Parameters start with 1
@@ -121,7 +122,7 @@ public class MySQLAccess {
         Class.forName("com.mysql.jdbc.Driver");
         // Setup the connection with the DB
         connect = DriverManager.getConnection("jdbc:mysql://localhost/aqparat?"
-                + "user=root&password=&characterEncoding=utf-8&useUnicode=true");
+                + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
 
 
         preparedStatement = connect.prepareStatement("UPDATE  `aqparat`.`lastnews` SET  `guid` =  '" + guid + "' WHERE  `lastnews`.`resource_id` =" + string + ";");
@@ -133,7 +134,7 @@ public class MySQLAccess {
         Class.forName("com.mysql.jdbc.Driver");
         // Setup the connection with the DB
         connect = DriverManager.getConnection("jdbc:mysql://localhost/aqparat?"
-                + "user=root&password=&characterEncoding=utf-8&useUnicode=true");
+                + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
 
         statement = connect.createStatement();
         String query = "SELECT  `guid` FROM  `lastnews` WHERE  `resource_id` =" + string + ";";
