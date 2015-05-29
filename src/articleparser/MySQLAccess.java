@@ -16,7 +16,7 @@ public class MySQLAccess {
     private ResultSet resultSet = null;
     private String password="buenosS1";
 
-    public void writeDataBase(String guid, String description, String title, String text, String res, String lang, String image) throws Exception {
+    public void writeDataBase(String guid, String description, String title, String text, String res, String lang, String image, String pubdate) throws Exception {
         try {
             // This will load the MySQL driver, each DB has its own driver
             Class.forName("com.mysql.jdbc.Driver");
@@ -31,7 +31,7 @@ public class MySQLAccess {
             // writeResultSet(resultSet);
 
             // PreparedStatements can use variables and are more efficient
-            String query="INSERT INTO `aqparat`.`news` (`id`, `title`, `description`, `text`, `photo`, `link`, `time`, `resource_id`, `language_id`) VALUES (NULL, '" + title + "', '" + description + "', '" + text + "', '"+image+"', '" + guid + "', CURRENT_TIMESTAMP, '" + res + "', '" + lang + "');";
+            String query="INSERT INTO `aqparat`.`news` (`id`, `title`, `description`, `text`, `photo`, `link`, `time`, `resource_id`, `language_id`) VALUES (NULL, '" + title + "', '" + description + "', '" + text + "', '"+image+"', '" + guid + "', '" + pubdate + "', '" + res + "', '" + lang + "');";
            String qr="INSERT INTO `aqparat`.`news` (`id`, `title`, `description`, `text`, `photo`, `link`, `time`, `resource_id`, `language_id`) VALUES (NULL, '" + title + "', '" + description + "', '" + "text" + "', '"+image+"', '" + guid + "', CURRENT_TIMESTAMP, '" + res + "', '" + lang + "');";
 
                 //   System.out.println(qr);
@@ -125,7 +125,7 @@ public class MySQLAccess {
                 + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
 
 
-        preparedStatement = connect.prepareStatement("UPDATE  `aqparat`.`lastnews` SET  `guid` =  '" + guid + "' WHERE  `lastnews`.`resource_id` =" + string + ";");
+        preparedStatement = connect.prepareStatement("UPDATE  `aqparat`.`lastnews` SET  `guid` =  '" + guid + "' WHERE  `lastnews`.`resource_id` ='" + string + "';");
 
         preparedStatement.executeUpdate();
     }
@@ -137,12 +137,30 @@ public class MySQLAccess {
                 + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
 
         statement = connect.createStatement();
-        String query = "SELECT  `guid` FROM  `lastnews` WHERE  `resource_id` =" + string + ";";
+        String query = "SELECT  `guid` FROM  `lastnews` WHERE  `resource_id` ='" + string + "';";
         resultSet = statement.executeQuery(query);
         String result = "";
         if (resultSet.next()) {
             result = resultSet.getString("guid");
         }
         return result;
+    }
+    public void writeBest(int id, String title,String link, String image, String res, String resimage, String time, String shared, String fulltext) throws ClassNotFoundException, SQLException{
+       try{
+        Class.forName("com.mysql.jdbc.Driver");
+            // Setup the connection with the DB
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/aqparat?"
+                    + "user=root&password="+password+"&characterEncoding=utf-8&useUnicode=true");
+            
+             String query="UPDATE  `aqparat`.`bestnews` SET  `title` =  '"+title+"',`link` =  '"+link+"',`imagelink` =  '"+image+"',`resource` =  '" + res + "',`res_imagelink` =  '"+resimage+"',`time` =  '"+time+"',`shared` =  '"+shared+"',`fulltext` =  '"+fulltext+"' WHERE  `bestnews`.`id` ="+id+";";
+     //   System.out.println(query);
+            preparedStatement = connect.prepareStatement(query);
+
+            preparedStatement.executeUpdate();
+             } catch (Exception e) {
+            throw e;
+        } finally {
+            close();
+        }
     }
 }
